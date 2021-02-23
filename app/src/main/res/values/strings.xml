@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sindoq</string>
+    <string name="set_the_timer">Set The Timer</string>
+    <string name="mobile_setting">Settings</string>
+    <string name="change_setting">Change Launcher</string>
+    <string name="change_wallpaper">Wallpaper</string>
+    <string name="wallpaper_transition">Wallpaper Transition</string>
+</resources>
