@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.sindoq">
+
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"
@@ -9,15 +14,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sindoq">
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".TimerActivity">
-        </activity>
-        <activity android:name=".BlockAppsActivity">
-        </activity>
+        <activity android:name=".screens.BlockPage"></activity>
+
+        <receiver
+            android:name=".BlockBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.sindoq.intent.action.ACTION_SHOW_TOAST" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.example.BgService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".MainActivity" />
+        <activity android:name=".TimerActivity" />
+        <activity android:name=".BlockAppsActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

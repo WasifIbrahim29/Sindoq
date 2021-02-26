@@ -17,15 +17,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.BgService;
+import com.example.sindoq.Database.DatabaseHelper;
 import com.example.sindoq.adapter.CustomAppListAdapter;
 import com.example.sindoq.listener.RecyclerItemClickListener;
 import com.example.sindoq.model.AppListMain;
 import com.example.sindoq.ui.GridSpacingItemDecoration;
+import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import android.database.Cursor;
 
 public class BlockAppsActivity extends Activity {
 
@@ -35,6 +39,7 @@ public class BlockAppsActivity extends Activity {
     private ArrayList<AppListMain> appListMainArrayList;
     private AppListMain appListMain;
 
+    DatabaseHelper databaseHelper;
     private RecyclerView rvAppList;
     private PackageManager packageManager;
     public static final int REQUEST_UNINSTALL = 222;
@@ -44,7 +49,10 @@ public class BlockAppsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_list);
+        databaseHelper = new DatabaseHelper(this);
 
+        Stetho.initializeWithDefaults(this);
+        startService(new Intent(this, BgService.class));
         loadApps();
         loadListView();
 
@@ -63,6 +71,7 @@ public class BlockAppsActivity extends Activity {
                 appListMain.setAppIcon(resolveInfo.activityInfo.loadIcon(packageManager));
                 appListMain.setAppName(resolveInfo.loadLabel(packageManager).toString());
                 appListMain.setAppPackage(resolveInfo.activityInfo.packageName);
+                appListMain.setAppSelected(false);
                 appListMainArrayList.add(appListMain);
             }
         } catch (Exception e) {
@@ -92,10 +101,25 @@ public class BlockAppsActivity extends Activity {
             public void onItemClick(View view, int position) {
                 appListMain = appListMainArrayList.get(position);
                 if (appListMain != null) {
+                    if(!appListMain.getAppSelected())
+                    {
+                        appListMain.setAppSelected(true);
+                        databaseHelper.insertapp(appListMain.getAppName().toString());
+
+                    }
+                    else {
+                        appListMain.setAppSelected(false);
+                        databaseHelper.deleteApp(appListMain.getAppName().toString());
+
+                    }
+
+
+                    }
+
                     //Intent intent = packageManager.getLaunchIntentForPackage(appListMainArrayList.get(position).getAppPackage().toString());
                     //startActivity(intent);
                 }
-            }
+
 
             @Override
             public void onItemLongClick(View view, int position) {
@@ -105,6 +129,10 @@ public class BlockAppsActivity extends Activity {
                     intent.setData(Uri.parse("package:"+appListMain.getAppPackage()));
                     startActivity(intent);
                     customAppListAdapter.notifyDataSetChanged();*/
+
+
+
+
                     selectedPos = position;
 //                    Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
 //                    intent.setData(Uri.parse("package:" + appListMain.getAppPackage()));

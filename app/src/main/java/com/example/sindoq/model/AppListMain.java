@@ -12,13 +12,20 @@ public class AppListMain implements Serializable {
     Drawable appIcon;
     CharSequence appName;
     CharSequence appPackage;
+    boolean Selected;
 
     public Drawable getAppIcon() {
         return appIcon;
     }
+    public boolean getAppSelected() {
+        return Selected;
+    }
 
     public void setAppIcon(Drawable appIcon) {
         this.appIcon = appIcon;
+    }
+    public void setAppSelected(boolean Selected) {
+        this.Selected = Selected;
     }
 
     public CharSequence getAppName() {
@@ -27,6 +34,7 @@ public class AppListMain implements Serializable {
 
     public void setAppName(CharSequence appName) {
         this.appName = appName;
+
     }
 
     public CharSequence getAppPackage() {
