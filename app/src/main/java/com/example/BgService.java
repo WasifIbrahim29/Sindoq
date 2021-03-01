@@ -110,7 +110,8 @@ public class BgService extends Service {
 
                 if(!currentApp.equals("NULL"))
                 {
-                    if(currentApp.contains("facebook")) {
+
+                    if(databaseHelper.CHeckIfAppExistsFromPackageName(currentApp)) {
 
                         Intent intent = new Intent();
                         intent.setAction("com.example.sindoq.intent.action.ACTION_SHOW_TOAST");

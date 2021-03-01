@@ -19,10 +19,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL("create table blocked_apps(app_id integer primary key autoincrement,  app_name string)");
-        db.execSQL("create table unblocked_apps(app_id integer primary key autoincrement,  app_name string)");
-
-
+        db.execSQL("create table blocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
+        db.execSQL("create table unblocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
     }
 
     @Override
@@ -33,20 +31,24 @@ public class DatabaseHelper extends SQLiteOpenHelper
         onCreate(db);
     }
 
-    public boolean insertapp(String app_name)
+    public boolean insertapp(String app_name, String packagename)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put("app_name", app_name);
+        cv.put("package_name", packagename);
+
         return db.insert("blocked_apps", null, cv) != -1;
+
     }
-    public boolean insertUnBlockedApp(String app_name)
+    public boolean insertUnBlockedApp(String app_name,String packagename)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put("app_name", app_name);
+        cv.put("package_name", packagename);
         return db.insert("unblocked_apps", null, cv) != -1;
     }
 
@@ -79,7 +81,20 @@ public class DatabaseHelper extends SQLiteOpenHelper
             return true;
         }
     }
-
+    public boolean CHeckIfAppExistsFromPackageName(String PackageName){
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = "package_name=?";
+        String whereArgs[] = {PackageName};
+        Log.e("adapter", "IN APP EXISTS " + PackageName);
+        Cursor c= db.rawQuery( "SELECT * FROM blocked_apps WHERE package_name=?", whereArgs);
+        if(c.getCount()==0)
+        {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
     public boolean CHeckIfAppExistsInUnblocked(String AppName){
         SQLiteDatabase db = getWritableDatabase();
         String whereClause = "app_name=?";
@@ -94,7 +109,20 @@ public class DatabaseHelper extends SQLiteOpenHelper
             return true;
         }
     }
-
+    public boolean CHeckIfAppExistsInUnblockedFromPackageName(String PackageName){
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = "package_name=?";
+        String whereArgs[] = {PackageName};
+        Log.e("adapter", "IN APP EXISTS " + PackageName);
+        Cursor c= db.rawQuery( "SELECT * FROM unblocked_apps WHERE package_name=?", whereArgs);
+        if(c.getCount()==0)
+        {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 
     public Cursor getBlockedApps()
     {

@@ -100,9 +100,12 @@ public class BlockAppsActivity extends Activity {
 
             for (int i = 0; i < appListMainArrayList.size(); i++) {
                 app = appListMainArrayList.get(i);
-                if (databaseHelper.CHeckIfAppExistsInUnblocked(app.getAppName().toString())==false) {
-                    if(!databaseHelper.CHeckIfAppExists(app.getAppName().toString())){
-                    databaseHelper.insertapp(app.getAppName().toString());}
+                if(!"Sindoq".equals(app.getAppName().toString())) {
+                    if (databaseHelper.CHeckIfAppExistsInUnblocked(app.getAppName().toString()) == false) {
+                        if (!databaseHelper.CHeckIfAppExists(app.getAppName().toString())) {
+                            databaseHelper.insertapp(app.getAppName().toString(), app.getAppPackage().toString());
+                        }
+                    }
                 }
             }
 
@@ -114,19 +117,18 @@ public class BlockAppsActivity extends Activity {
             public void onItemClick(View view, int position) {
                 appListMain = appListMainArrayList.get(position);
                 if (appListMain != null) {
-                    if(databaseHelper.CHeckIfAppExists(appListMain.getAppName().toString()))
-                    {
-                        appListMain.setAppSelected(true);
-                        databaseHelper.deleteApp(appListMain.getAppName().toString()); //delete from blocked Apps
-                        databaseHelper.insertUnBlockedApp(appListMain.getAppName().toString()); //Add in Unblocked Apps
-                        customAppListAdapter.notifyDataSetChanged();
+                    if(!"Sindoq".equals(appListMain.getAppName().toString())) {
+                        if (databaseHelper.CHeckIfAppExists(appListMain.getAppName().toString())) {
+                            appListMain.setAppSelected(true);
+                            databaseHelper.deleteApp(appListMain.getAppName().toString()); //delete from bloc); //Add in Unblocked Apps
+                            databaseHelper.insertUnBlockedApp(appListMain.getAppName().toString(), appListMain.getAppPackage().toString()); //Add in Unblocked Apps
+                            customAppListAdapter.notifyDataSetChanged();
+                        } else {
+                            databaseHelper.deleteUnBlockedApp(appListMain.getAppName().toString());
+                            databaseHelper.insertapp(appListMain.getAppName().toString(), appListMain.getAppPackage().toString());
+                            customAppListAdapter.notifyDataSetChanged();
+                        }
                     }
-                    else {
-                        databaseHelper.deleteUnBlockedApp(appListMain.getAppName().toString());
-                        databaseHelper.insertapp(appListMain.getAppName().toString());
-                        customAppListAdapter.notifyDataSetChanged();
-                    }
-
 
                     }
 

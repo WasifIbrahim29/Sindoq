@@ -33,6 +33,7 @@ public class TimerActivity extends Activity {
         }
 
 
+
         //Register Broadcast
         IntentFilter filter = new IntentFilter("com.example.sindoq.intent.action.ACTION_SHOW_TOAST");
 
