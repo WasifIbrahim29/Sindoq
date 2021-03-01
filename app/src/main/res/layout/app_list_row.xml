@@ -38,6 +38,7 @@
 
             <CheckBox
                 android:layout_width="match_parent"
+                android:id="@+id/checkbox"
                 android:layoutDirection="rtl"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_6sdp"

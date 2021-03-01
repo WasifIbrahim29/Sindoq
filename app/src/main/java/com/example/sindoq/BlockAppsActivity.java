@@ -97,8 +97,7 @@ public class BlockAppsActivity extends Activity {
 
         /////////////////////// load all apps into db initally//////////////
         AppListMain app;
-        boolean initial= true;
-        if(initial== true) {
+
             for (int i = 0; i < appListMainArrayList.size(); i++) {
                 app = appListMainArrayList.get(i);
                 if (app.getAppSelected() == false) {
@@ -106,8 +105,8 @@ public class BlockAppsActivity extends Activity {
                     databaseHelper.insertapp(app.getAppName().toString());}
                 }
             }
-            initial =false;
-        }
+
+
         //////////////////////////////////////////////////////////////////
 
         rvAppList.addOnItemTouchListener(new RecyclerItemClickListener(this, rvAppList, new RecyclerItemClickListener.OnItemClickListener() {
@@ -118,8 +117,8 @@ public class BlockAppsActivity extends Activity {
                     if(!appListMain.getAppSelected())
                     {
                         appListMain.setAppSelected(true);
-                        databaseHelper.deleteApp(appListMain.getAppName().toString());
-
+                        databaseHelper.deleteApp(appListMain.getAppName().toString()); //delete from blocked Apps
+                        databaseHelper.insertUnBlockedApp(appListMain.getAppName().toString()); //Add in Unblocked Apps
                     }
                     else {
 

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sindoq.Database.DatabaseHelper;
 import com.example.sindoq.R;
 import com.example.sindoq.model.AppListMain;
 
@@ -24,10 +26,12 @@ public class CustomAppListAdapter extends RecyclerView.Adapter<CustomAppListAdap
     ArrayList<AppListMain> appListMainArrayList;
     AppListMain appListMain;
     Context context;
+    DatabaseHelper databaseHelper;
 
     public CustomAppListAdapter(Context context, ArrayList<AppListMain> appListMainArrayList) {
         this.context = context;
         this.appListMainArrayList = appListMainArrayList;
+        this.databaseHelper=new DatabaseHelper(context);
     }
 
     @Override
@@ -44,6 +48,14 @@ public class CustomAppListAdapter extends RecyclerView.Adapter<CustomAppListAdap
             holder.ivAppIcon.setImageDrawable(appListMainArrayList.get(position).getAppIcon());
             holder.tvAppLabel.setText(appListMainArrayList.get(position).getAppName());
             holder.tvAppPackage.setText(appListMainArrayList.get(position).getAppPackage());
+            if(databaseHelper.CHeckIfAppExistsInUnblocked(appListMainArrayList.get(position).getAppName().toString()))
+            {
+                holder.checkbox.setChecked(true);
+            }
+            else {
+                holder.checkbox.setChecked(false);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,6 +72,7 @@ public class CustomAppListAdapter extends RecyclerView.Adapter<CustomAppListAdap
         public View mView;
         public ImageView ivAppIcon;
         public TextView tvAppLabel, tvAppPackage;
+        public CheckBox checkbox;
 
 
         public ViewHolder(View view) {
@@ -68,6 +81,7 @@ public class CustomAppListAdapter extends RecyclerView.Adapter<CustomAppListAdap
             ivAppIcon = view.findViewById(R.id.ivAppIcon);
             tvAppLabel = view.findViewById(R.id.tvAppLabel);
             tvAppPackage = view.findViewById(R.id.tvAppPackage);
+            checkbox= view.findViewById(R.id.checkbox);
         }
     }
 
