@@ -100,7 +100,7 @@ public class BlockAppsActivity extends Activity {
 
             for (int i = 0; i < appListMainArrayList.size(); i++) {
                 app = appListMainArrayList.get(i);
-                if (app.getAppSelected() == false) {
+                if (databaseHelper.CHeckIfAppExistsInUnblocked(app.getAppName().toString())==false) {
                     if(!databaseHelper.CHeckIfAppExists(app.getAppName().toString())){
                     databaseHelper.insertapp(app.getAppName().toString());}
                 }
@@ -114,14 +114,17 @@ public class BlockAppsActivity extends Activity {
             public void onItemClick(View view, int position) {
                 appListMain = appListMainArrayList.get(position);
                 if (appListMain != null) {
-                    if(!appListMain.getAppSelected())
+                    if(databaseHelper.CHeckIfAppExists(appListMain.getAppName().toString()))
                     {
                         appListMain.setAppSelected(true);
                         databaseHelper.deleteApp(appListMain.getAppName().toString()); //delete from blocked Apps
                         databaseHelper.insertUnBlockedApp(appListMain.getAppName().toString()); //Add in Unblocked Apps
+                        customAppListAdapter.notifyDataSetChanged();
                     }
                     else {
-
+                        databaseHelper.deleteUnBlockedApp(appListMain.getAppName().toString());
+                        databaseHelper.insertapp(appListMain.getAppName().toString());
+                        customAppListAdapter.notifyDataSetChanged();
                     }
 
 
