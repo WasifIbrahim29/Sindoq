@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper
 {
@@ -42,6 +43,21 @@ public class DatabaseHelper extends SQLiteOpenHelper
         String whereClause = "app_name=?";
         String whereArgs[] = {app_name};
         db.delete("blocked_apps", whereClause, whereArgs);
+    }
+
+    public boolean CHeckIfAppExists(String AppName){
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = "app_name=?";
+        String whereArgs[] = {AppName};
+        Log.e("adapter", "IN APP EXISTS " + AppName);
+        Cursor c= db.rawQuery( "SELECT * FROM blocked_apps WHERE app_name=?", whereArgs);
+        if(c.getCount()==0)
+        {
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     public Cursor getBlockedApps()

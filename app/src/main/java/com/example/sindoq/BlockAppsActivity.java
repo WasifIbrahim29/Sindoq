@@ -55,7 +55,6 @@ public class BlockAppsActivity extends Activity {
         startService(new Intent(this, BgService.class));
         loadApps();
         loadListView();
-
     }
 
     public void loadApps() {
@@ -96,6 +95,21 @@ public class BlockAppsActivity extends Activity {
         customAppListAdapter = new CustomAppListAdapter(this, appListMainArrayList);
         rvAppList.setAdapter(customAppListAdapter);
 
+        /////////////////////// load all apps into db initally//////////////
+        AppListMain app;
+        boolean initial= true;
+        if(initial== true) {
+            for (int i = 0; i < appListMainArrayList.size(); i++) {
+                app = appListMainArrayList.get(i);
+                if (app.getAppSelected() == false) {
+                    if(!databaseHelper.CHeckIfAppExists(app.getAppName().toString())){
+                    databaseHelper.insertapp(app.getAppName().toString());}
+                }
+            }
+            initial =false;
+        }
+        //////////////////////////////////////////////////////////////////
+
         rvAppList.addOnItemTouchListener(new RecyclerItemClickListener(this, rvAppList, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -104,12 +118,10 @@ public class BlockAppsActivity extends Activity {
                     if(!appListMain.getAppSelected())
                     {
                         appListMain.setAppSelected(true);
-                        databaseHelper.insertapp(appListMain.getAppName().toString());
+                        databaseHelper.deleteApp(appListMain.getAppName().toString());
 
                     }
                     else {
-                        appListMain.setAppSelected(false);
-                        databaseHelper.deleteApp(appListMain.getAppName().toString());
 
                     }
 
