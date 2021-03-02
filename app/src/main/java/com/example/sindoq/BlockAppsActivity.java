@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,7 +53,17 @@ public class BlockAppsActivity extends Activity {
         databaseHelper = new DatabaseHelper(this);
 
         Stetho.initializeWithDefaults(this);
-        startService(new Intent(this, BgService.class));
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
+        {
+            startForegroundService(new Intent(this, BgService.class));
+        }
+
+        else
+        {
+            startService(new Intent(this, BgService.class));
+
+        }
+
         loadApps();
         loadListView();
     }

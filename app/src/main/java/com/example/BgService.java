@@ -2,16 +2,25 @@ package com.example;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+
+import com.example.sindoq.BlockAppsActivity;
 import com.example.sindoq.Database.DatabaseHelper;
+import com.example.sindoq.MyApp;
 import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
@@ -35,22 +44,32 @@ public class BgService extends Service {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
 
         Log.d("IMPORTANT!!!!", "Servive Started");
+
+        Intent notificationIntent = new Intent(this, BlockAppsActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent, 0);
+        Notification notification = new NotificationCompat.Builder(this, MyApp.CHANNEL_ID)
+                .setContentTitle("Auto Start Service")
+                .setContentText("j")
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .setContentIntent(pendingIntent)
+                .build();
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel( MyApp.CHANNEL_ID, MyApp.CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            mNotificationManager.createNotificationChannel(channel);
+            new NotificationCompat.Builder(this, MyApp.CHANNEL_ID);
+        }
+        startForeground(1, notification);
+
+
+
         Timer timer  =  new Timer();
         Toast.makeText(getApplicationContext(), "IN SERVICE!!!", Toast.LENGTH_LONG).show();
         DatabaseHelper databaseHelper;
@@ -129,10 +148,14 @@ public class BgService extends Service {
 
         return START_STICKY;
     }
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
 
-
-
-
+        Log.e("DESTROYING","destroy");
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
     private ActivityManager.RunningAppProcessInfo getForegroundApp() {
         ActivityManager.RunningAppProcessInfo result = null, info = null;
 

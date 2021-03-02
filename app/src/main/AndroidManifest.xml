@@ -7,7 +7,11 @@
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
 
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,6 +26,15 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.example.sindoq.intent.action.ACTION_SHOW_TOAST" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".StopServiceBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="stopservice" />
             </intent-filter>
         </receiver>
 
