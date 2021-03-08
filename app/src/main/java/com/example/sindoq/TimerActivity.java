@@ -41,24 +41,13 @@ public class TimerActivity extends Activity {
         minutes=findViewById(R.id.minute);
         seconds=findViewById(R.id.second);
 
-        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.PACKAGE_USAGE_STATS)!=PackageManager.PERMISSION_GRANTED)
+        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.PACKAGE_USAGE_STATS)!= PackageManager.PERMISSION_GRANTED)
         {
             Intent intent = new
                     Intent(android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS);
             startActivity(intent);
 
         }
-
-
-        //Register Broadcast
-        IntentFilter filter = new IntentFilter("com.example.sindoq.intent.action.ACTION_SHOW_TOAST");
-        BlockBroadcastReceiver receiver = new BlockBroadcastReceiver();
-        registerReceiver(receiver, filter);
-
-
-        IntentFilter filter1 = new IntentFilter("com.example.sindoq.intent.action.stopservice");
-        StopServiceBroadcastReceiver sendBroadcastReceiver1 = new StopServiceBroadcastReceiver();
-        registerReceiver(sendBroadcastReceiver1, filter1);
 
         blockApps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +67,7 @@ public class TimerActivity extends Activity {
                 int res_secs=secs*1000;
                 res_sec=res_day+res_hr+res_min+res_secs;
 
-                if(databaseHelper.insert_sec(res_sec))
+                if(databaseHelper.insert_sec(days,mins,hrs,secs,res_sec))
                 {
                     System.out.println("Successfully inserted!!");
                 }

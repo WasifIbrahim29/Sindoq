@@ -16,6 +16,15 @@ public class MyApp extends Application {
 
         BlockBroadcastReceiver receiver = new BlockBroadcastReceiver();
         registerReceiver(receiver, filter);
+
+        IntentFilter filter1 = new IntentFilter("com.example.sindoq.intent.action.stopservice");
+        StopServiceBroadcastReceiver sendBroadcastReceiver1 = new StopServiceBroadcastReceiver();
+        registerReceiver(sendBroadcastReceiver1, filter1);
+
+        IntentFilter filter2 = new IntentFilter("com.example.sindoq.intent.action.startservice");
+        StartServiceBroadcastReceiver sendBroadcastReceiver2 = new StartServiceBroadcastReceiver();
+        registerReceiver(sendBroadcastReceiver2, filter2);
+
         createNotificationChannel();
     }
     private void createNotificationChannel() {

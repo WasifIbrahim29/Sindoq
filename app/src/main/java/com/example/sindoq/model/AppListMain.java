@@ -13,7 +13,10 @@ public class AppListMain implements Serializable {
     CharSequence appName;
     CharSequence appPackage;
     boolean Selected;
+    public AppListMain()
+    {
 
+    }
     public Drawable getAppIcon() {
         return appIcon;
     }

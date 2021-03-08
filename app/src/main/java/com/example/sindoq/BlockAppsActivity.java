@@ -53,7 +53,7 @@ public class BlockAppsActivity extends Activity {
         databaseHelper = new DatabaseHelper(this);
 
         Stetho.initializeWithDefaults(this);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
+        /*if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
         {
             startForegroundService(new Intent(this, BgService.class));
         }
@@ -62,10 +62,11 @@ public class BlockAppsActivity extends Activity {
         {
             startService(new Intent(this, BgService.class));
 
-        }
+        }*/
 
         loadApps();
         loadListView();
+
     }
 
     public void loadApps() {
@@ -187,6 +188,11 @@ public class BlockAppsActivity extends Activity {
                 Log.d("TAG", "onActivityResult: failed to (un)install");
             }
         }
+    }
+    public void Next(View v)
+    {
+        Intent intent=new Intent(this,ConfirmPage.class);
+        startActivity(intent);
     }
 
 }

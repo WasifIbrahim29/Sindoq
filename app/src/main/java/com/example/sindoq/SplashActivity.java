@@ -2,8 +2,11 @@ package com.example.sindoq;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.core.content.ContextCompat;
 
 public class SplashActivity extends Activity {
 
@@ -22,6 +25,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
+
                 Intent mainIntent = new Intent(SplashActivity.this, TimerActivity.class);
                 SplashActivity.this.startActivity(mainIntent);
                 SplashActivity.this.finish();

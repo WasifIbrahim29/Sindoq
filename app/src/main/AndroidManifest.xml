@@ -6,9 +6,7 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-
-    <uses-permission
-        android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MyApp"
@@ -18,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sindoq">
-        <activity android:name=".screens.BlockPage"></activity>
+        <activity android:name=".Countdown"></activity>
+        <activity android:name=".ConfirmPage" />
+        <activity android:name=".screens.BlockPage" />
 
         <receiver
             android:name=".BlockBroadcastReceiver"
@@ -28,13 +28,21 @@
                 <action android:name="com.example.sindoq.intent.action.ACTION_SHOW_TOAST" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".StopServiceBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="stopservice" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".StartServiceBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="startservice" />
             </intent-filter>
         </receiver>
 
