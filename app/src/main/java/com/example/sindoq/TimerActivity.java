@@ -50,10 +50,11 @@ public class TimerActivity extends Activity {
         }
 
 
+
         //Register Broadcast
-        IntentFilter filter = new IntentFilter("com.example.sindoq.intent.action.ACTION_SHOW_TOAST");
-        BlockBroadcastReceiver receiver = new BlockBroadcastReceiver();
-        registerReceiver(receiver, filter);
+        //IntentFilter filter = new IntentFilter("com.example.sindoq.intent.action.ACTION_SHOW_TOAST");
+        //BlockBroadcastReceiver receiver = new BlockBroadcastReceiver();
+        //registerReceiver(receiver, filter);
 
 
         IntentFilter filter1 = new IntentFilter("com.example.sindoq.intent.action.stopservice");
@@ -78,7 +79,7 @@ public class TimerActivity extends Activity {
                 int res_secs=secs*1000;
                 res_sec=res_day+res_hr+res_min+res_secs;
 
-                if(databaseHelper.insert_sec(res_sec))
+                if(databaseHelper.insert_sec(days,mins,hrs,secs,res_sec))
                 {
                     System.out.println("Successfully inserted!!");
                 }
