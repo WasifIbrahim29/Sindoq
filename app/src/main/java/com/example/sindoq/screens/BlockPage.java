@@ -116,7 +116,7 @@ public class BlockPage extends AppCompatActivity {
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(startMain);
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //android.os.Process.killProcess(android.os.Process.myPid());
 
     }
 
