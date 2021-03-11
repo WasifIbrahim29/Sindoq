@@ -33,6 +33,18 @@ public class DatabaseHelper extends SQLiteOpenHelper
         onCreate(db);
     }
 
+    public void clearDBApps()
+    {
+        Log.e("aslks","DB CLEAREDD");
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("drop table if exists blocked_apps");
+        db.execSQL("drop table if exists unblocked_apps");
+
+        db.execSQL("create table blocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
+        db.execSQL("create table unblocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
+
+    }
+
     public boolean insertapp(String app_name, String packagename)
     {
         SQLiteDatabase db = this.getWritableDatabase();

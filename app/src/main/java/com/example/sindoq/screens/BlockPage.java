@@ -100,6 +100,7 @@ public class BlockPage extends AppCompatActivity {
                 finish.setText("Apps Unblocked!");
                 Log.e("TIMER MESSAGE ","UNBLOCK");
                 //clear db
+                databaseHelper.clearDBApps();
                 Intent intent = new Intent();
                 intent.setAction("com.example.sindoq.intent.action.stopservice");
                 sendBroadcast(intent);
