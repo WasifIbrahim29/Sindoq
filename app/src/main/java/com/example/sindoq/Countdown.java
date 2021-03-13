@@ -18,13 +18,14 @@ TextView textView;
     private int counter=1;
     RecyclerView recyclerView;
     ConfirmPageAdapter confirmPageAdapter;
+    CountDownTimer Timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countdown);
         textView=findViewById(R.id.countdown);
 
-        new CountDownTimer(5000, 1000){
+        Timer= new CountDownTimer(5000, 1000){
             public void onTick(long millisUntilFinished){
                 textView.setText(String.valueOf(counter));
                 counter++;
@@ -34,12 +35,14 @@ TextView textView;
                 intent.setAction("com.example.sindoq.intent.action.startservice");
                 sendBroadcast(intent);
             }
+
         }.start();
     }
     public void Stop(View v)
     {
-        Intent intent=new Intent(this,TimerActivity.class);
+        Intent intent=new Intent(this,ConfirmPage.class);
         startActivity(intent);
+        Timer.cancel();
         finish();
     }
 }

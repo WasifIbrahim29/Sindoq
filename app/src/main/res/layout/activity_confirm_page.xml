@@ -3,21 +3,22 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
     android:id="@+id/confirm_page"
+
     >
 
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
-        android:layout_height="99dp"
-        android:layout_marginStart="60dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="90dp"
         android:text="Confirm Time"
         android:textAllCaps="true"
         android:textColor="@color/black"
-        android:textSize="40sp">
+        android:textSize="35sp">
 
 
     </TextView>
@@ -186,17 +187,23 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="95dp"
             android:text="Confirm UnBlocked Apps"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="30sp"
+            android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
+            android:layout_marginStart="30dp"
             android:id="@+id/apps"
-            android:layout_height="wrap_content">
+
+            android:layout_height="300dp"
+            android:scrollbars="vertical"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarStyle="insideOverlay">
         </androidx.recyclerview.widget.RecyclerView>
         <TextView
             android:id="@+id/no_apps"
@@ -208,16 +215,18 @@
 
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/parent"
-        android:layout_marginLeft="150dp"
-        android:layout_marginBottom="-91dp"
+        android:layout_marginStart="190dp"
+        android:layout_marginBottom="-109dp"
         android:gravity="center"
         android:onClick="Confirm"
         android:text="CONFIRM"
-        android:textSize="20sp" />
+        android:textSize="25sp"
+        />
+
 </RelativeLayout>
 
 

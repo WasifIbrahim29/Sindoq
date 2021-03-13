@@ -11,7 +11,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="APP BLOCKED!"
+        android:text="App is Blocked!"
         android:textSize="40sp"
         android:layout_marginLeft="60dp"
         android:textColor="@color/black"
@@ -28,18 +28,18 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView"
         android:layout_marginLeft="200dp"
-        android:layout_marginBottom="-37dp"
+        android:layout_marginBottom="-35dp"
         android:textColor="@color/black"
-        android:textSize="40sp"></TextView>
+        android:textSize="20sp"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/timer"
-        android:layout_marginLeft="150dp"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_marginLeft="90dp"
         android:layout_marginBottom="-35dp"
         android:id="@+id/temp"
-        android:text="Time left"
+        android:text="Time left:"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -48,9 +48,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/temp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginBottom="-49dp"
-        android:text="Unblocked Apps"
+        android:text="Your unblocked Apps:"
         android:textColor="@color/black"
         android:textSize="30sp" />
 
@@ -66,14 +66,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_alignBottom="@+id/noapp"
-        android:layout_marginBottom="-388dp" />
+        android:layout_marginBottom="-288dp" />
+
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="600dp"
-        android:text="Stop Blocking"
+        android:text="Stop Blocking Service"
         android:onClick="StopBlocking"
 ></com.google.android.material.button.MaterialButton>
 </RelativeLayout>

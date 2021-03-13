@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -30,6 +32,7 @@ public class TimerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_timer);
         timerLayout= findViewById(R.id.timerLayout);
         blockApps= findViewById(R.id.blockApps);
@@ -40,6 +43,32 @@ public class TimerActivity extends Activity {
         hour=findViewById(R.id.hour);
         minutes=findViewById(R.id.minute);
         seconds=findViewById(R.id.second);
+
+        //////////////////////////////////////////////
+        databaseHelper=new DatabaseHelper(this);
+        Cursor c=databaseHelper.getSeconds();
+
+        if(c.getCount()>0)
+        {
+            if(c.moveToFirst())
+            {
+                do
+                {
+
+                    days=c.getInt(1);
+                    mins=c.getInt(2);
+                    hrs=c.getInt(3);
+                    secs=c.getInt(4);
+                }while(c.moveToNext());
+            }
+        }
+        day.setText(String.valueOf(days));
+        minutes.setText(String.valueOf(mins));
+        hour.setText(String.valueOf(hrs));
+        seconds.setText(String.valueOf(secs));
+
+        /////////////////////////////////////////////
+
 
         if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.PACKAGE_USAGE_STATS)!=PackageManager.PERMISSION_GRANTED)
         {
@@ -79,7 +108,8 @@ public class TimerActivity extends Activity {
                 int res_secs=secs*1000;
                 res_sec=res_day+res_hr+res_min+res_secs;
 
-                if(databaseHelper.insert_sec(days,mins,hrs,secs,res_sec))
+                int endtime=(int)System.currentTimeMillis() + res_sec;
+                if(databaseHelper.insert_sec(days,mins,hrs,secs,res_sec,endtime,0))
                 {
                     System.out.println("Successfully inserted!!");
                 }

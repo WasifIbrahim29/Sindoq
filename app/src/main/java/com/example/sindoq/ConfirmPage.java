@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ int days,mins,secs,hrs;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_page);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         recyclerView=findViewById(R.id.apps);
         textView=findViewById(R.id.no_apps);
         day=findViewById(R.id.days);
@@ -185,7 +187,8 @@ int days,mins,secs,hrs;
 
         res1=day1*86400000+hr1*3600000+min1*60000+sec1*1000;
 
-        if(databaseHelper.insert_sec(day1,min1,hr1,sec1,res1))
+        int endtime=(int)System.currentTimeMillis() + res1;
+        if(databaseHelper.insert_sec(day1,min1,hr1,sec1,res1,endtime,0))
         {
             System.out.println("Successfully inserted!!");
         }

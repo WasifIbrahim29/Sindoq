@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         db.execSQL("create table blocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
         db.execSQL("create table unblocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
-        db.execSQL("create table sec_result(sec_id integer primary key autoincrement,days int,minute int,hour int,seconds int, res_seconds int)");
+        db.execSQL("create table sec_result(sec_id integer primary key autoincrement,days int,minute int,hour int,seconds int, res_seconds int,end_time int,flag int)");
     }
 
     @Override
@@ -124,7 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         }
     }
 
-    public boolean insert_sec(int days,int min,int hr,int sec,int res_sec)
+    public boolean insert_sec(int days,int min,int hr,int sec,int res_sec,int endtime,int flag)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -133,14 +133,25 @@ public class DatabaseHelper extends SQLiteOpenHelper
         cv.put("hour",hr);
         cv.put("seconds", sec);
         cv.put("res_seconds",res_sec);
+        cv.put("end_time",endtime);
+        cv.put("flag",flag);
+
         return db.insert("sec_result", null, cv) != -1;
     }
+
+    public void delete()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ "sec_result");
+    }
+
     public Cursor getSeconds()
     {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("Select * from sec_result",null);
         return c;
     }
+
 
 
     public boolean CHeckIfAppExistsInUnblockedFromPackageName(String PackageName){

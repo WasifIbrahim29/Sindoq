@@ -49,6 +49,7 @@ public class BlockAppsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("Blockk Appps","On create of Block apps called");
         setContentView(R.layout.activity_app_list);
         databaseHelper = new DatabaseHelper(this);
 
@@ -170,6 +171,14 @@ public class BlockAppsActivity extends Activity {
                 }
             }
         }));
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        Log.e("Blockk Appps","On Resume of Block apps called");
+        customAppListAdapter.notifyDataSetChanged();
     }
 
     @Override

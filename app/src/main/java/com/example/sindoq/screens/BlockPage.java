@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -16,9 +18,9 @@ import android.widget.TextView;
 import com.example.BgService;
 import com.example.sindoq.Database.DatabaseHelper;
 import com.example.sindoq.R;
-import com.example.sindoq.SplashActivity;
 import com.example.sindoq.StopServiceBroadcastReceiver;
 import com.example.sindoq.TimerActivity;
+import com.example.sindoq.adapter.BlockPageAdapter;
 import com.example.sindoq.adapter.ConfirmPageAdapter;
 import com.example.sindoq.model.AppListMain;
 
@@ -29,26 +31,24 @@ import java.util.TimerTask;
 
 public class BlockPage extends AppCompatActivity {
     long seconds;
-    int counter=1;
     DatabaseHelper databaseHelper;
     private  AppListMain appListMain;
     ArrayList<AppListMain> appListMainList;
     TextView textView;
     TextView noapp;
-    ConfirmPageAdapter confirmPageAdapter;
+    BlockPageAdapter blockPageAdapter;
     RecyclerView recyclerView;
     TextView finish;
-    boolean flag=false;
+    int flag;
     private long mEndTime;
     private CountDownTimer mCountDownTimer;
-    long starttime;
-    private static BlockPage lastPausedActivity = null;
-
-    public void Start()
+    int tempend;
+    private void Start()
     {
         mEndTime = System.currentTimeMillis() + seconds;
-        System.out.println(mEndTime);
+        System.out.println("END TIME IN TIMER "+(int)mEndTime);
         mCountDownTimer=new CountDownTimer(seconds, 1000){
+
             public void onTick(long millisUntilFinished){
                 seconds= millisUntilFinished;
                 updateCountDownText();
@@ -57,68 +57,31 @@ public class BlockPage extends AppCompatActivity {
                 finish.setText("Apps Unblocked!");
                 Log.e("TIMER MESSAGE ","UNBLOCK");
                 //clear db
-                //databaseHelper.delete();
-                flag=false;
+                databaseHelper.delete();
+                flag=0;
                 Intent intent = new Intent();
                 intent.setAction("com.example.sindoq.intent.action.stopservice");
                 sendBroadcast(intent);
             }
 
         }.start();
-        flag=true;
-    }
+        flag=1;
 
-    protected void onPause() {
-        Log.e("Pause","in on pause");
-        super.onPause();
+        System.out.println("FLAG IN TIMER !!!!! " + flag);
+    }
+    @Override
+    protected void onStop() {
+        Log.e("Stop","in on Stop");
+        super.onStop();
         databaseHelper=new DatabaseHelper(this);
-        databaseHelper.insert_sec(0,0,0,0,(int)seconds);
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("millisLeft", seconds);
-        editor.putBoolean("timerRunning", flag);
-        editor.putLong("endTime", mEndTime);
-        editor.apply();
+        System.out.println("inserting in db "+seconds);
+        System.out.println("insertinf in db "+mEndTime);
+        if(databaseHelper.insert_sec(0,0,0,0,(int)seconds,(int)mEndTime,flag))
+        {
+            System.out.println("Insertion successful!!!");
+        }
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
-        }
-
-        lastPausedActivity = this;
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(this == lastPausedActivity) {
-            lastPausedActivity = null;
-            Intent intent = new Intent(this, SplashActivity.class);
-            intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
-            startActivity( intent );
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        Log.e("START","in on start");
-        super.onStart();
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        seconds = prefs.getLong("millisLeft", starttime);
-        flag = prefs.getBoolean("timerRunning", false);
-        updateCountDownText();
-        //updateButtons();
-        if (flag) {
-            mEndTime = prefs.getLong("endTime", 0);
-            seconds =  mEndTime - System.currentTimeMillis();
-            if (seconds < 0) {
-                seconds = 0;
-                flag = false;
-                updateCountDownText();
-                //updateButtons();
-            }
-            else {
-                Start();
-            }
         }
     }
 
@@ -128,25 +91,8 @@ public class BlockPage extends AppCompatActivity {
         int minutes =(int) (seconds / 1000) / 60;
         int second = (int) (seconds / 1000) % 60;
         String timeLeftFormatted;
-        System.out.println(days+" "+hours+" "+minutes+" "+second);
-        /*if (hours > 0) {
-            timeLeftFormatted = String.format(Locale.getDefault(),
-                    "%d:%02d:%02d", hours, minutes, second);
-        }*/
-
-       // if(days>0)
-        //{
-          //  timeLeftFormatted = String.format(Locale.getDefault(),
-            //        "%d:%02d:%02d:%02d",days, hours, minutes, second);
-       // }
-       // else {
-            timeLeftFormatted = String.format(Locale.getDefault(),
-                   "%02d:%02d", minutes, second);
-       // }
-       // String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, second);
+        timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, second);
         textView.setText(timeLeftFormatted);
-        // textView.setText(String.valueOf(counter));
-        counter++;
     }
 
 
@@ -169,27 +115,17 @@ public class BlockPage extends AppCompatActivity {
             {
                 do
                 {
-                    seconds=(long)(c.getInt(5));
+                    seconds=(long)(c.getLong(5));
+                    mEndTime=(long)(c.getLong(6));
+                    flag=c.getInt(7);
                 }while(c.moveToNext());
             }
         }
-        starttime=seconds;
-        /*if(c2.getCount()>0)
-        {
-            if(c2.moveToFirst())
-            {
-                do
-                {
-                    counter=c2.getInt(1);
-                }while(c2.moveToNext());
-            }
-        }
-        else
-        {
-            counter=1;
-        }
-*/
-        System.out.println("SECONDS FROM DB "+seconds);
+        System.out.println("END TIME FIRST "+(int)mEndTime);
+        tempend=(int)mEndTime;
+        //starttime=seconds;
+
+        //System.out.println("SECONDS FROM DB "+seconds);
         //unblock
         Cursor c1=databaseHelper.getUnblockedApps();
 
@@ -220,53 +156,43 @@ public class BlockPage extends AppCompatActivity {
             noapp.setText("NO UNBLOCKED APPS!");
         }
         else {
-            confirmPageAdapter = new ConfirmPageAdapter(this, appListMainList);
+            blockPageAdapter = new BlockPageAdapter(this, appListMainList);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(confirmPageAdapter);
+            recyclerView.setAdapter(blockPageAdapter);
         }
 
-        Start();
-
-    }
-    /*public void onStart() {
-        Log.e("START","in on start");
-        super.onStart();
-        Cursor c2=databaseHelper.getCounter();
-        if(c2.getCount()>0)
+        if(flag==0) {
+            Start();
+        }
+        else
         {
-            if(c2.moveToFirst())
+            System.out.println("END TIME "+(int)mEndTime+" SYSTEM TIME "+(int)System.currentTimeMillis());
+            seconds = (int)mEndTime-(int) System.currentTimeMillis();
+            System.out.println("updated secs "+seconds);
+            //updateCountDownText();
+            if (seconds < 0)
             {
-                do
-                {
-                    counter=c2.getInt(0);
-                }while(c2.moveToNext());
+                seconds = 0;
+                flag = 0;
+                updateCountDownText();
+                finish.setText("Apps Unblocked!");
+                Log.e("TIMER MESSAGE ","UNBLOCK");
+                //clear db
+                databaseHelper.delete();
+                flag=0;
+                Intent intent = new Intent();
+                intent.setAction("com.example.sindoq.intent.action.stopservice");
+                sendBroadcast(intent);
+                //updateButtons();
+            }
+            else
+            {
+                Start();
             }
         }
-        Start();
-    }
-    public void onResume() {
-        Log.e("RESUME","in on resume");
-        super.onResume();
-        /*Cursor c2=databaseHelper.getCounter();
-        if(c2.getCount()>0)
-        {
-            if(c2.moveToFirst())
-            {
-                do
-                {
-                    counter=c2.getInt(0);
-                }while(c2.moveToNext());
-            }
-        }
-        Start();
 
     }
-    public void onPause() {
-        Log.e("PAUSE","in on pause");
-        super.onPause();
-        DatabaseHelper databaseHelper=new DatabaseHelper(this);
-        databaseHelper.insert_counter(counter);
-    }*/
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -276,17 +202,35 @@ public class BlockPage extends AppCompatActivity {
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(startMain);
-        //android.os.Process.killProcess(android.os.Process.myPid());
+       // android.os.Process.killProcess(android.os.Process.myPid());
 
     }
 
 
     public void StopBlocking(View view) {
-        Intent intent = new Intent();
-        intent.setAction("com.example.sindoq.intent.action.stopservice");
-        sendBroadcast(intent);
-        this.finish();
-        //System.exit(0);
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Unblock All Apps?");
+        builder.setMessage("Are you sure you want to unblock all Apps?");
+        builder.setPositiveButton("yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setAction("com.example.sindoq.intent.action.stopservice");
+                        sendBroadcast(intent);
+                        onBackPressed();
+                    }
+                });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 }
