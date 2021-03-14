@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.BgService;
 import com.example.sindoq.Database.DatabaseHelper;
 import com.example.sindoq.R;
+import com.example.sindoq.SplashActivity;
 import com.example.sindoq.StopServiceBroadcastReceiver;
 import com.example.sindoq.TimerActivity;
 import com.example.sindoq.adapter.BlockPageAdapter;
@@ -43,6 +44,8 @@ public class BlockPage extends AppCompatActivity {
     private long mEndTime;
     private CountDownTimer mCountDownTimer;
     int tempend;
+    private static BlockPage lastPausedActivity = null;
+
     private void Start()
     {
         mEndTime = System.currentTimeMillis() + seconds;
@@ -73,6 +76,8 @@ public class BlockPage extends AppCompatActivity {
     protected void onStop() {
         Log.e("Stop","in on Stop");
         super.onStop();
+        lastPausedActivity = this;
+
         databaseHelper=new DatabaseHelper(this);
         System.out.println("inserting in db "+seconds);
         System.out.println("insertinf in db "+mEndTime);
@@ -83,6 +88,7 @@ public class BlockPage extends AppCompatActivity {
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
         }
+        lastPausedActivity = this;
     }
 
     private void updateCountDownText() {
@@ -100,6 +106,7 @@ public class BlockPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("CREATE","in on create");
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_block_page);
         databaseHelper=new DatabaseHelper(this);
         //databaseHelper.delete();
@@ -196,16 +203,31 @@ public class BlockPage extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+        lastPausedActivity = this;
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(startMain);
-       // android.os.Process.killProcess(android.os.Process.myPid());
-
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lastPausedActivity = this;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("Resume","in on Resume");
+        if(this == lastPausedActivity) {
+            lastPausedActivity = null;
+            Intent intent = new Intent(this, SplashActivity.class);
+            intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+            startActivity( intent );
+        }
+    }
 
     public void StopBlocking(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -219,7 +241,9 @@ public class BlockPage extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.setAction("com.example.sindoq.intent.action.stopservice");
                         sendBroadcast(intent);
-                        onBackPressed();
+                        Intent intent1 = new Intent();
+                        intent.setAction("com.example.sindoq.intent.action.ACTION_SHOW_TOAST");
+                        sendBroadcast(intent1);
                     }
                 });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

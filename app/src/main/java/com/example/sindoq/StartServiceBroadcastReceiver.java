@@ -20,7 +20,6 @@ public class StartServiceBroadcastReceiver extends BroadcastReceiver {
         else
         {
             context.startService(new Intent(context, BgService.class));
-
         }
     }
 }

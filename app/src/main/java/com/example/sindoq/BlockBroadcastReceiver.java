@@ -14,6 +14,7 @@ public class BlockBroadcastReceiver extends BroadcastReceiver {
         Log.e("From Broadcast Receiver", "RECEIVED");
 
         Intent intent2= new Intent(context, BlockPage.class);
+        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent2);
     }
 }
