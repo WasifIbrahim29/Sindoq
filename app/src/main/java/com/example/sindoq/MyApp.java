@@ -17,6 +17,10 @@ public class MyApp extends Application {
         BlockBroadcastReceiver receiver = new BlockBroadcastReceiver();
         registerReceiver(receiver, filter);
 
+        IntentFilter filter3 = new IntentFilter("com.example.sindoq.intent.action.TimerActivityIntent");
+        TimerActivityBroadcastReciever reciver1= new TimerActivityBroadcastReciever();
+        registerReceiver(reciver1,filter3);
+
         IntentFilter filter1 = new IntentFilter("com.example.sindoq.intent.action.stopservice");
         StopServiceBroadcastReceiver sendBroadcastReceiver1 = new StopServiceBroadcastReceiver();
         registerReceiver(sendBroadcastReceiver1, filter1);

@@ -241,8 +241,10 @@ public class BlockPage extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.setAction("com.example.sindoq.intent.action.stopservice");
                         sendBroadcast(intent);
+
+                        Log.e("Stop blocking", "onClick: Stop blocking called");
                         Intent intent1 = new Intent();
-                        intent.setAction("com.example.sindoq.intent.action.ACTION_SHOW_TOAST");
+                        intent1.setAction("com.example.sindoq.intent.action.TimerActivityIntent");
                         sendBroadcast(intent1);
                     }
                 });

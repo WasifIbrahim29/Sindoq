@@ -21,6 +21,7 @@
         >
 
 
+
     </TextView>
 
     <LinearLayout
@@ -172,16 +173,20 @@
 
     </LinearLayout>
 
-    <Button
+
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/blockApps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="20sp"
         android:padding="20dp"
+        android:textColor="@color/white"
+        android:background="@drawable/custombtn"
         android:layout_marginTop="50sp"
         android:text="Block Apps">
-    </Button>
+    </androidx.appcompat.widget.AppCompatButton>
 
 
 </LinearLayout>

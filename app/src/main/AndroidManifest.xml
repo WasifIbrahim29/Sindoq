@@ -28,6 +28,16 @@
                 <action android:name="com.example.sindoq.intent.action.ACTION_SHOW_TOAST" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".TimerActivityBroadcastReciever"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.sindoq.intent.action.TimerActivityIntent" />
+            </intent-filter>
+        </receiver>
+
         <receiver
             android:name=".StopServiceBroadcastReceiver"
             android:enabled="true"

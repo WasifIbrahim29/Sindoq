@@ -2,20 +2,30 @@ package com.example.sindoq;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 import com.example.sindoq.Database.DatabaseHelper;
+
+import java.util.Calendar;
 
 public class TimerActivity extends Activity {
 
@@ -28,6 +38,8 @@ public class TimerActivity extends Activity {
     EditText minutes;
     int days,mins,secs,hrs;
     int res_day,res_hr,res_min,res_sec;
+
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +57,9 @@ public class TimerActivity extends Activity {
         seconds=findViewById(R.id.second);
 
         //////////////////////////////////////////////
+
+
+
         databaseHelper=new DatabaseHelper(this);
         Cursor c=databaseHelper.getSeconds();
 
@@ -122,5 +137,9 @@ public class TimerActivity extends Activity {
             }
         });
 
+
+
     }
+
+
 }
