@@ -215,17 +215,22 @@
 
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
+
+
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="15dp"
         android:layout_alignBottom="@+id/parent"
-        android:layout_marginStart="190dp"
+        android:layout_marginStart="125dp"
         android:layout_marginBottom="-109dp"
         android:gravity="center"
         android:onClick="Confirm"
-        android:text="CONFIRM"
         android:textSize="25sp"
-        />
+        android:background="@drawable/custombtn"
+        android:textColor="@color/white"
+        android:text="CONFIRM">
+    </androidx.appcompat.widget.AppCompatButton>
 
 </RelativeLayout>
 

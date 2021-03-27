@@ -18,6 +18,8 @@
     <color name="colorAccentLight">#6ab7ff</color>
     <color name="colorOnPrimary">@color/white</color>
     <color name="colorRipple">@color/white_2</color>
+    <color name="MainTheme">#3A1A2F</color>
+    <color name="MainTheme2">#A04883</color>
 
     <color name="white_2">#33FFFFFF</color>
 </resources>

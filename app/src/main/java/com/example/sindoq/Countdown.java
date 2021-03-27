@@ -15,7 +15,7 @@ import com.example.sindoq.adapter.ConfirmPageAdapter;
 
 public class Countdown extends AppCompatActivity {
 TextView textView;
-    private int counter=1;
+    private int counter=5;
     RecyclerView recyclerView;
     ConfirmPageAdapter confirmPageAdapter;
     CountDownTimer Timer;
@@ -28,7 +28,7 @@ TextView textView;
         Timer= new CountDownTimer(5000, 1000){
             public void onTick(long millisUntilFinished){
                 textView.setText(String.valueOf(counter));
-                counter++;
+                counter--;
             }
             public  void onFinish(){
                 Intent intent = new Intent();

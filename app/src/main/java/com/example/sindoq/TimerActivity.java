@@ -41,7 +41,7 @@ public class TimerActivity extends Activity {
     EditText minutes;
     int days,mins,secs,hrs;
     int res_day,res_hr,res_min,res_sec;
-    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE= 2323;
+    //public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE= 2323;
 
 
     @SuppressLint("ResourceAsColor")
@@ -89,17 +89,7 @@ public class TimerActivity extends Activity {
         /////////////////////////////////////////////
 
 
-        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.PACKAGE_USAGE_STATS)!=PackageManager.PERMISSION_GRANTED)
-        {
-            Intent intent = new
-                    Intent(android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS);
-            startActivity(intent);
 
-        }
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-                !Settings.canDrawOverlays(getApplicationContext()))
-        {RequestPermission();}
 
         //Register Broadcast
         //IntentFilter filter = new IntentFilter("com.example.sindoq.intent.action.ACTION_SHOW_TOAST");
@@ -147,17 +137,7 @@ public class TimerActivity extends Activity {
 
     }
 
-    private void RequestPermission()
-    {
-        // Check if Android M or higher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Show alert dialog to the user saying a separate permission is needed
-            // Launch the settings activity if the user prefers
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + this.getPackageName()));
-            startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
-        }
-    }
+
 
 
 

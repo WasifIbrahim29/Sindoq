@@ -2,6 +2,7 @@ package com.example.sindoq;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -10,10 +11,12 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,13 +28,14 @@ import com.example.sindoq.listener.RecyclerItemClickListener;
 import com.example.sindoq.model.AppListMain;
 import com.example.sindoq.ui.GridSpacingItemDecoration;
 import com.facebook.stetho.Stetho;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import android.database.Cursor;
-
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public class BlockAppsActivity extends Activity {
 
     private static final String TAG = "BlockAppsActivity";
@@ -45,12 +49,63 @@ public class BlockAppsActivity extends Activity {
     private PackageManager packageManager;
     public static final int REQUEST_UNINSTALL = 222;
     int selectedPos = 0;
+    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE= 2323;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("Blockk Appps","On create of Block apps called");
         setContentView(R.layout.activity_app_list);
+
+
+
+
+        //////////////////////////////////
+
+
+        if (ContextCompat.checkSelfPermission(BlockAppsActivity.this, android.Manifest.permission.PACKAGE_USAGE_STATS) != PackageManager.PERMISSION_GRANTED) {
+            new MaterialAlertDialogBuilder(BlockAppsActivity.this, R.style.AlertDialogTheme)
+                    .setTitle("Permission Required")
+                    .setMessage("Sindoq Requires Usage Access Permission")
+                    .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Intent intent = new
+                                    Intent(android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                            startActivity(intent);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                                    !Settings.canDrawOverlays(getApplicationContext())) {
+                                RequestPermission();
+                            }
+
+
+                        }
+                    })
+                    .setNeutralButton("Decline", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Toast.makeText(getApplicationContext(), "Permission Required", Toast.LENGTH_SHORT).show();
+                            Intent intent= new Intent(BlockAppsActivity.this,TimerActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .show();
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        /////////////////////////////////////
         databaseHelper = new DatabaseHelper(this);
 
         Stetho.initializeWithDefaults(this);
@@ -202,6 +257,17 @@ public class BlockAppsActivity extends Activity {
     {
         Intent intent=new Intent(this,ConfirmPage.class);
         startActivity(intent);
+    }
+    private void RequestPermission()
+    {
+        // Check if Android M or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Show alert dialog to the user saying a separate permission is needed
+            // Launch the settings activity if the user prefers
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + this.getPackageName()));
+            startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
+        }
     }
 
 }
