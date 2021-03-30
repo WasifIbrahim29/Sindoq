@@ -65,8 +65,9 @@ public class BlockAppsActivity extends Activity {
 
         if (ContextCompat.checkSelfPermission(BlockAppsActivity.this, android.Manifest.permission.PACKAGE_USAGE_STATS) != PackageManager.PERMISSION_GRANTED) {
             new MaterialAlertDialogBuilder(BlockAppsActivity.this, R.style.AlertDialogTheme)
-                    .setTitle("Permission Required")
-                    .setMessage("Sindoq Requires Usage Access Permission")
+                    .setTitle("Usage Access Permission Required")
+                    .setMessage( "\n" + "Sindoq Requires Usage Permission" + "\n" + "\n"  +
+                            "\n" + "-" + "Click on Sindoq" + "\n" + "-" + "Enable Usage Tracking " + "\n" + "\n" )
                     .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

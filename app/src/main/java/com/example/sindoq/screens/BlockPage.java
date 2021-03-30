@@ -222,6 +222,7 @@ public class BlockPage extends AppCompatActivity {
         super.onResume();
         Log.e("Resume","in on Resume");
         if(this == lastPausedActivity) {
+            Log.e("Resume","PROBLEM HERE!");
             lastPausedActivity = null;
             Intent intent = new Intent(this, SplashActivity.class);
             intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
@@ -229,7 +230,7 @@ public class BlockPage extends AppCompatActivity {
         }
     }
 
-    public void StopBlocking(View view) {
+   /* public void StopBlocking(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Unblock All Apps?");
@@ -258,5 +259,5 @@ public class BlockPage extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 
-    }
+    }*/
 }

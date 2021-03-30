@@ -70,11 +70,5 @@
         android:layout_alignBottom="@+id/noapp"
         android:layout_marginBottom="-288dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="600dp"
-        android:text="Stop Blocking Service"
-        android:onClick="StopBlocking"
-></com.google.android.material.button.MaterialButton>
+
 </RelativeLayout>
