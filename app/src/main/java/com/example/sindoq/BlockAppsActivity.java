@@ -265,9 +265,35 @@ public class BlockAppsActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Show alert dialog to the user saying a separate permission is needed
             // Launch the settings activity if the user prefers
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + this.getPackageName()));
-            startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
+
+            final String packageName = this.getPackageName();
+            new MaterialAlertDialogBuilder(BlockAppsActivity.this, R.style.AlertDialogTheme)
+                    .setTitle("Appear on top Permission Required")
+                    .setMessage( "\n" + "Sindoq Requires Appear on Top Permission" + "\n" + "\n"  +
+                            "\n" + "-" + "Click on Sindoq" + "\n" + "-" + "Enable Appear on Top" + "\n" + "\n" )
+                    .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                    Uri.parse("package:" + packageName));
+                            startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
+
+                        }
+                    })
+                    .setNeutralButton("Decline", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Toast.makeText(getApplicationContext(), "Permission Required", Toast.LENGTH_SHORT).show();
+                            Intent intent= new Intent(BlockAppsActivity.this,TimerActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .show();
+
+
+
+
         }
     }
 
