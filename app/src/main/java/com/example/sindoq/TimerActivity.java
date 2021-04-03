@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -35,12 +36,13 @@ public class TimerActivity extends Activity {
     LinearLayout timerLayout;
     Button blockApps;
     DatabaseHelper databaseHelper;
-    EditText hour;
-    EditText seconds;
-    EditText day;
-    EditText minutes;
+    TextView hour;
+    TextView seconds;
+    TextView day;
+    TextView minutes;
     int days,mins,secs,hrs;
     int res_day,res_hr,res_min,res_sec;
+
     //public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE= 2323;
 
 
@@ -138,8 +140,62 @@ public class TimerActivity extends Activity {
     }
 
 
+    public void IncrDay(View view) {
+        int noofdays= Integer.valueOf((String) day.getText());
+        if(noofdays<100) //caanot set days higher than 100
+        {noofdays++;}
+        day.setText(String.valueOf(noofdays));
+
+    }
 
 
+    public void DecDay(View view) {
+        int noofdays= Integer.valueOf((String) day.getText());
+        if(noofdays!=0) //caanot set days higher than 100
+        {noofdays--;}
+        day.setText(String.valueOf(noofdays));
+    }
 
+    public void IncrHour(View view) {
+        int noofHours= Integer.valueOf((String) hour.getText());
+        if(noofHours<12) // cant set hours higher than 12
+        {noofHours++;}
+        hour.setText(String.valueOf(noofHours));
+    }
+
+    public void DecHour(View view) {
+        int noofHours= Integer.valueOf((String) hour.getText());
+        if(noofHours!=0) // cant set hours higher than 12
+        {noofHours--;}
+        hour.setText(String.valueOf(noofHours));
+    }
+
+    public void IncrMins(View view) {
+        int noofMins= Integer.valueOf((String) minutes.getText());
+        if(noofMins<60) // cant set hours higher than 12
+        {noofMins++;}
+        minutes.setText(String.valueOf(noofMins));
+    }
+
+    public void DecMins(View view) {
+        int noofMins= Integer.valueOf((String) minutes.getText());
+        if(noofMins!=0) // cant set hours higher than 12
+        {noofMins--;}
+        minutes.setText(String.valueOf(noofMins));
+    }
+
+    public void IncrSecs(View view) {
+        int noofSecs= Integer.valueOf((String) seconds.getText());
+        if(noofSecs<60) // cant set hours higher than 12
+        {noofSecs++;}
+        seconds.setText(String.valueOf(noofSecs));
+    }
+
+    public void DecSecs(View view) {
+        int noofSecs= Integer.valueOf((String) seconds.getText());
+        if(noofSecs!=0) // cant set hours higher than 12
+        {noofSecs--;}
+        seconds.setText(String.valueOf(noofSecs));
+    }
 
 }

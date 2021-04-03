@@ -24,14 +24,14 @@
     </TextView>
 
     <LinearLayout
-        android:layout_width="359dp"
         android:id="@+id/linear_layout"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="181dp"
         android:layout_alignBottom="@+id/text"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="-73dp"
+        android:layout_marginBottom="-136dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -47,7 +47,7 @@
                 android:id="@+id/tv_event"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+
                 android:text="Android Event Start"
                 android:textColor="@android:color/white"
                 android:textSize="20dp"
@@ -57,7 +57,7 @@
         <LinearLayout
             android:id="@+id/linear_layout_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="201dp"
             android:background="@android:color/black"
             android:visibility="visible">
 
@@ -67,7 +67,17 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <EditText
+                <Button
+                    android:id="@+id/btnincrDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/custombtn2"
+                    android:onClick="IncrDay"
+                    android:text="+1"
+                    android:textColor="@color/white"></Button>
+
+                <TextView
                     android:id="@+id/days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -76,6 +86,16 @@
                     android:textColor="@android:color/white"
                     android:textSize="30dp"
                     android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnDecDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/custombtn2"
+                    android:onClick="DecDay"
+                    android:text="-1"
+                    android:textColor="@color/white"></Button>
 
                 <TextView
                     android:id="@+id/tv_days_title"
@@ -95,7 +115,17 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <EditText
+                <Button
+                    android:id="@+id/btnincrHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/custombtn2"
+                    android:onClick="IncrHour"
+                    android:text="+1"
+                    android:textColor="@color/white"></Button>
+
+                <TextView
                     android:id="@+id/hour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -104,6 +134,16 @@
                     android:textColor="@android:color/white"
                     android:textSize="30dp"
                     android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnDecHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/custombtn2"
+                    android:onClick="DecHour"
+                    android:text="-1"
+                    android:textColor="@color/white"></Button>
 
                 <TextView
                     android:id="@+id/tv_hour_title"
@@ -123,7 +163,17 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <EditText
+                <Button
+                    android:id="@+id/btnincrMins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/custombtn2"
+                    android:onClick="IncrMins"
+                    android:text="+1"
+                    android:textColor="@color/white"></Button>
+
+                <TextView
                     android:id="@+id/minute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -132,6 +182,16 @@
                     android:textColor="@android:color/white"
                     android:textSize="30dp"
                     android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnDecrMins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/custombtn2"
+                    android:onClick="DecMins"
+                    android:text="-1"
+                    android:textColor="@color/white"></Button>
 
                 <TextView
                     android:id="@+id/tv_minute_title"
@@ -151,7 +211,17 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <EditText
+                <Button
+                    android:id="@+id/btnincrSecs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/custombtn2"
+                    android:onClick="IncrSecs"
+                    android:text="+1"
+                    android:textColor="@color/white"></Button>
+
+                <TextView
                     android:id="@+id/second"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,6 +230,17 @@
                     android:textColor="@android:color/white"
                     android:textSize="30dp"
                     android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnDecSecs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/custombtn2"
+                    android:onClick="DecSecs"
+                    android:text="-1"
+                    android:textColor="@color/white"></Button>
+
 
                 <TextView
                     android:id="@+id/tv_second_title"

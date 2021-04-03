@@ -215,12 +215,15 @@ public class BlockPage extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         lastPausedActivity = this;
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.e("Resume","in on Resume");
+
 
     }
 

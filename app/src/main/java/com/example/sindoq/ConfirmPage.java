@@ -28,10 +28,10 @@ public class ConfirmPage extends AppCompatActivity {
     private static final int REQUEST_UNINSTALL = 222;
     RecyclerView recyclerView;
 TextView textView;
-EditText day;
-EditText min;
-EditText sec;
-EditText hr;
+TextView day;
+TextView min;
+TextView sec;
+TextView hr;
 DatabaseHelper databaseHelper;
 ArrayList<AppListMain> appListMainList;
 ConfirmPageAdapter confirmPageAdapter;
@@ -199,5 +199,65 @@ int days,mins,secs,hrs;
         Intent intent=new Intent(this,Countdown.class);
         startActivity(intent);
         finish();
+    }
+
+
+
+    public void IncrDay(View view) {
+        int noofdays= Integer.valueOf((String) day.getText());
+        if(noofdays<100) //caanot set days higher than 100
+        {noofdays++;}
+        day.setText(String.valueOf(noofdays));
+
+    }
+
+
+    public void DecDay(View view) {
+        int noofdays= Integer.valueOf((String) day.getText());
+        if(noofdays!=0) //caanot set days higher than 100
+        {noofdays--;}
+        day.setText(String.valueOf(noofdays));
+    }
+
+    public void IncrHour(View view) {
+        int noofHours= Integer.valueOf((String) hr.getText());
+        if(noofHours<12) // cant set hours higher than 12
+        {noofHours++;}
+        hr.setText(String.valueOf(noofHours));
+    }
+
+    public void DecHour(View view) {
+        int noofHours= Integer.valueOf((String) hr.getText());
+        if(noofHours!=0) // cant set hours higher than 12
+        {noofHours--;}
+        hr.setText(String.valueOf(noofHours));
+    }
+
+    public void IncrMins(View view) {
+        int noofMins= Integer.valueOf((String) min.getText());
+        if(noofMins<60) // cant set hours higher than 12
+        {noofMins++;}
+        min.setText(String.valueOf(noofMins));
+    }
+
+    public void DecMins(View view) {
+        int noofMins= Integer.valueOf((String) min.getText());
+        if(noofMins!=0) // cant set hours higher than 12
+        {noofMins--;}
+        min.setText(String.valueOf(noofMins));
+    }
+
+    public void IncrSecs(View view) {
+        int noofSecs= Integer.valueOf((String) sec.getText());
+        if(noofSecs<60) // cant set hours higher than 12
+        {noofSecs++;}
+        sec.setText(String.valueOf(noofSecs));
+    }
+
+    public void DecSecs(View view) {
+        int noofSecs= Integer.valueOf((String) sec.getText());
+        if(noofSecs!=0) // cant set hours higher than 12
+        {noofSecs--;}
+        sec.setText(String.valueOf(noofSecs));
     }
 }

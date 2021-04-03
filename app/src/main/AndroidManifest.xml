@@ -16,9 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sindoq">
-        <activity android:name=".Countdown"></activity>
-        <activity android:name=".ConfirmPage" />
-        <activity android:name=".screens.BlockPage" />
+        <activity android:name=".Countdown" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ConfirmPage" android:screenOrientation="portrait"></activity>
+        <activity android:name=".screens.BlockPage" android:screenOrientation="portrait"></activity>
 
         <receiver
             android:name=".BlockBroadcastReceiver"
@@ -61,16 +61,16 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".TimerActivity" >
+        <activity android:name=".MainActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".TimerActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>>
-        <activity android:name=".BlockAppsActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".BlockAppsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".SplashActivity" android:screenOrientation="portrait">
 
         </activity>
     </application>
