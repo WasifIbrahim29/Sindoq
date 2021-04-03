@@ -128,7 +128,7 @@ public class BgService extends Service {
                 if(!currentApp.equals("NULL"))
                 {
 
-                    if(databaseHelper.CHeckIfAppExistsFromPackageName(currentApp)) {
+                    if(databaseHelper.CHeckIfAppExistsFromPackageNameUnbloCKedApps(currentApp)) {
 
                         Intent intent = new Intent();
                         intent.setAction("com.example.sindoq.intent.action.ACTION_SHOW_TOAST");

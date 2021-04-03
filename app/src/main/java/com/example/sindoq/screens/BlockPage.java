@@ -221,13 +221,7 @@ public class BlockPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.e("Resume","in on Resume");
-        if(this == lastPausedActivity) {
-            Log.e("Resume","PROBLEM HERE!");
-            lastPausedActivity = null;
-            Intent intent = new Intent(this, SplashActivity.class);
-            intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
-            startActivity( intent );
-        }
+
     }
 
    /* public void StopBlocking(View view) {

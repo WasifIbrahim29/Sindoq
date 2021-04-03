@@ -56,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return db.insert("blocked_apps", null, cv) != -1;
 
     }
+
     public boolean insertUnBlockedApp(String app_name,String packagename)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -115,6 +116,20 @@ public class DatabaseHelper extends SQLiteOpenHelper
         String whereArgs[] = {AppName};
        // Log.e("adapter", "IN APP EXISTS " + AppName);
         Cursor c= db.rawQuery( "SELECT * FROM unblocked_apps WHERE app_name=?", whereArgs);
+        if(c.getCount()==0)
+        {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    public boolean CHeckIfAppExistsFromPackageNameUnbloCKedApps(String PackageName){
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = "package_name=?";
+        String whereArgs[] = {PackageName};
+        // Log.e("adapter", "IN APP EXISTS " + PackageName);
+        Cursor c= db.rawQuery( "SELECT * FROM unblocked_apps WHERE package_name=?", whereArgs);
         if(c.getCount()==0)
         {
             return false;
