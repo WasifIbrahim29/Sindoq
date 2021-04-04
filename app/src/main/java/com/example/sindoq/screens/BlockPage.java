@@ -9,6 +9,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -147,8 +151,12 @@ public class BlockPage extends AppCompatActivity {
                         String temp2=c1.getString(2);
                         appListMain.setAppName(temp1);
                         appListMain.setAppPackage(temp2);
+                        byte[] bitmap = c1.getBlob(3);
+                        Bitmap image = BitmapFactory.decodeByteArray(bitmap, 0 , bitmap.length);
+                        Drawable d = new BitmapDrawable(getResources(), image);
+                        appListMain.setAppIcon(d);
                         appListMainList.add(appListMain);
-                        //appListMain.setAppIcon(resolveInfo.icon(c.getString(3)));
+
                     } while (c1.moveToNext());
                 }
             }
@@ -160,7 +168,7 @@ public class BlockPage extends AppCompatActivity {
 
         if(appListMainList==null||appListMainList.size()==0)
         {
-            noapp.setText("NO UNBLOCKED APPS!");
+            noapp.setText("NO BLOCKED APPS!");
         }
         else {
             blockPageAdapter = new BlockPageAdapter(this, appListMainList);

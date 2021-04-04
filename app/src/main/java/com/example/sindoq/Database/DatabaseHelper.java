@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db)
     {
         db.execSQL("create table blocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
-        db.execSQL("create table unblocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
+        db.execSQL("create table unblocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string,  image blob)");
         db.execSQL("create table sec_result(sec_id integer primary key autoincrement,days int,minute int,hour int,seconds int, res_seconds int,end_time int,flag int)");
     }
 
@@ -53,17 +53,19 @@ public class DatabaseHelper extends SQLiteOpenHelper
         cv.put("app_name", app_name);
         cv.put("package_name", packagename);
 
+
         return db.insert("blocked_apps", null, cv) != -1;
 
     }
 
-    public boolean insertUnBlockedApp(String app_name,String packagename)
+    public boolean insertUnBlockedApp(String app_name,String packagename, byte[] img)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put("app_name", app_name);
         cv.put("package_name", packagename);
+        cv.put("image",img);
         return db.insert("unblocked_apps", null, cv) != -1;
     }
 

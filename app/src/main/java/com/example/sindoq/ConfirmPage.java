@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +25,11 @@ import com.example.sindoq.listener.RecyclerItemClickListener;
 import com.example.sindoq.model.AppListMain;
 import com.facebook.stetho.inspector.protocol.module.Database;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.sindoq.BlockAppsActivity.drawableToBitmap;
 
 public class ConfirmPage extends AppCompatActivity {
     private static final int REQUEST_UNINSTALL = 222;
@@ -86,6 +93,10 @@ int days,mins,secs,hrs;
                         System.out.println("temp 2 "+temp2);
                         appListMain.setAppName(temp1);
                         appListMain.setAppPackage(temp2);
+                        byte[] bitmap = c1.getBlob(3);
+                        Bitmap image = BitmapFactory.decodeByteArray(bitmap, 0 , bitmap.length);
+                        Drawable d = new BitmapDrawable(getResources(), image);
+                        appListMain.setAppIcon(d);
                         appListMainList.add(appListMain);
                         //appListMain.setAppIcon(resolveInfo.icon(c.getString(3)));
                     } while (c1.moveToNext());
@@ -116,10 +127,15 @@ int days,mins,secs,hrs;
                         if (databaseHelper.CHeckIfAppExists(appListMain.getAppName().toString())) {
                             appListMain.setAppSelected(true);
                             databaseHelper.deleteApp(appListMain.getAppName().toString()); //delete from bloc); //Add in Unblocked Apps
-                            databaseHelper.insertUnBlockedApp(appListMain.getAppName().toString(), appListMain.getAppPackage().toString()); //Add in Unblocked Apps
+                            Bitmap bitmap = drawableToBitmap(appListMain.getAppIcon());
+                            ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray);
+                            byte[] img = byteArray.toByteArray();
+                            databaseHelper.insertUnBlockedApp(appListMain.getAppName().toString(), appListMain.getAppPackage().toString(),img); //Add in Unblocked Apps
                             confirmPageAdapter.notifyDataSetChanged();
                         } else {
                             databaseHelper.deleteUnBlockedApp(appListMain.getAppName().toString());
+
                             databaseHelper.insertapp(appListMain.getAppName().toString(), appListMain.getAppPackage().toString());
                             confirmPageAdapter.notifyDataSetChanged();
                         }

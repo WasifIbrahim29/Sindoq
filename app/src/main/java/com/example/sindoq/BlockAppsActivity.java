@@ -2,12 +2,21 @@ package com.example.sindoq;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +40,7 @@ import com.example.sindoq.ui.GridSpacingItemDecoration;
 import com.facebook.stetho.Stetho;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -63,7 +74,7 @@ public class BlockAppsActivity extends Activity {
         //////////////////////////////////
 
 
-        if (ContextCompat.checkSelfPermission(BlockAppsActivity.this, android.Manifest.permission.PACKAGE_USAGE_STATS) != PackageManager.PERMISSION_GRANTED) {
+        if (hasPermission(this)) {
             new MaterialAlertDialogBuilder(BlockAppsActivity.this, R.style.AlertDialogTheme)
                     .setTitle("Usage Access Permission Required")
                     .setMessage( "\n" + "Sindoq Requires Usage Permission" + "\n" + "\n"  +
@@ -172,6 +183,7 @@ public class BlockAppsActivity extends Activity {
                 if(!"Sindoq".equals(app.getAppName().toString()) && !"Settings".equals(app.getAppName().toString())) {
                     if (databaseHelper.CHeckIfAppExistsInUnblocked(app.getAppName().toString()) == false) {
                         if (!databaseHelper.CHeckIfAppExists(app.getAppName().toString())) {
+
                             databaseHelper.insertapp(app.getAppName().toString(), app.getAppPackage().toString());
                         }
                     }
@@ -190,10 +202,19 @@ public class BlockAppsActivity extends Activity {
                         if (databaseHelper.CHeckIfAppExists(appListMain.getAppName().toString())) {
                             appListMain.setAppSelected(true);
                             databaseHelper.deleteApp(appListMain.getAppName().toString()); //delete from bloc); //Add in Unblocked Apps
-                            databaseHelper.insertUnBlockedApp(appListMain.getAppName().toString(), appListMain.getAppPackage().toString()); //Add in Unblocked Apps
+                            Bitmap bitmap = drawableToBitmap(appListMain.getAppIcon());
+                            ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray);
+                            byte[] img = byteArray.toByteArray();
+                            databaseHelper.insertUnBlockedApp(appListMain.getAppName().toString(), appListMain.getAppPackage().toString(),img); //Add in Unblocked Apps
                             customAppListAdapter.notifyDataSetChanged();
                         } else {
                             databaseHelper.deleteUnBlockedApp(appListMain.getAppName().toString());
+                            //Bitmap bitmap = ((BitmapDrawable)appListMain.getAppIcon()).getBitmap();
+                            //Bitmap bitmap = drawableToBitmap(appListMain.getAppIcon());
+                            //ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                            //bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray);
+                            //byte[] img = byteArray.toByteArray();
                             databaseHelper.insertapp(appListMain.getAppName().toString(), appListMain.getAppPackage().toString());
                             customAppListAdapter.notifyDataSetChanged();
                         }
@@ -294,6 +315,35 @@ public class BlockAppsActivity extends Activity {
 
 
 
+        }
+    }
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+    public static boolean hasPermission(@NonNull final Context context) {
+        try {
+            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), 0);
+            return ((AppOpsManager) context.getSystemService(APP_OPS_SERVICE)).checkOpNoThrow("android:get_usage_stats", applicationInfo.uid, applicationInfo.packageName) != 0;
+        } catch (PackageManager.NameNotFoundException unused) {
+            return true;
         }
     }
 

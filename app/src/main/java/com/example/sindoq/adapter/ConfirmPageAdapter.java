@@ -46,6 +46,7 @@ public class ConfirmPageAdapter extends RecyclerView.Adapter<ConfirmPageAdapter.
             //holder.ivAppIcon.setImageDrawable(appListMainArrayList.get(position).getAppIcon());
             holder.tvAppLabel.setText(appListMainArrayList.get(position).getAppName());
             holder.tvAppPackage.setText(appListMainArrayList.get(position).getAppPackage());
+            holder.ivAppIcon.setImageDrawable(appListMainArrayList.get(position).getAppIcon());
             if(databaseHelper.CHeckIfAppExistsInUnblocked(appListMainArrayList.get(position).getAppName().toString()))
             {
                 holder.checkbox.setChecked(true);

@@ -53,6 +53,7 @@ public class BlockPageAdapter extends RecyclerView.Adapter<BlockPageAdapter.View
            // holder.ivAppIcon.setImageDrawable(appListMainArrayList.get(position).getAppIcon());
             holder.tvAppLabel.setText(appListMainArrayList.get(position).getAppName());
             holder.tvAppPackage.setText(appListMainArrayList.get(position).getAppPackage());
+            holder.ivAppIcon.setImageDrawable(appListMainArrayList.get(position).getAppIcon());
 
         } catch (Exception e) {
             e.printStackTrace();
