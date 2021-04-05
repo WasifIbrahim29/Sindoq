@@ -188,6 +188,7 @@ public class BlockAppsActivity extends Activity {
                         }
                     }
                 }
+
             }
 
 

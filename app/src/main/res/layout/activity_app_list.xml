@@ -28,21 +28,22 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAppList"
         android:layout_width="match_parent"
-        android:layout_height="421dp"
+        android:layout_height="@dimen/_400sdp"
         android:padding="@dimen/_5sdp"
         android:visibility="visible" />
 
-    <Button
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/b"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="20dp"
-        android:textColor="@color/white"
-        android:background="@drawable/custombtn"
-        android:layout_marginTop="40sp"
         android:onClick="Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|right"
         android:text="Next"
-        android:textSize="22sp"></Button>
+        android:textColor="@color/white"
+        android:gravity="center"
+        app:backgroundTint="@color/MainTheme"
+        />
 
 </LinearLayout>
