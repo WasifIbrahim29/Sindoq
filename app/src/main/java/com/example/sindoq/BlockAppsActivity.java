@@ -151,7 +151,8 @@ public class BlockAppsActivity extends Activity {
                 appListMain.setAppName(resolveInfo.loadLabel(packageManager).toString());
                 appListMain.setAppPackage(resolveInfo.activityInfo.packageName);
                 appListMain.setAppSelected(false);
-                appListMainArrayList.add(appListMain);
+                if(!"Sindoq".equals(appListMain.getAppName().toString()))
+                {appListMainArrayList.add(appListMain);}
             }
         } catch (Exception e) {
             e.printStackTrace();
