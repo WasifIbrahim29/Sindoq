@@ -193,6 +193,7 @@ public class BlockPage extends AppCompatActivity {
                 finish.setText("Apps Unblocked!");
                 Log.e("TIMER MESSAGE ","UNBLOCK");
                 //clear db
+                databaseHelper.clearDBApps();
                 databaseHelper.delete();
                 flag=0;
                 Intent intent = new Intent();

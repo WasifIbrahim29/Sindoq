@@ -41,7 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.execSQL("drop table if exists unblocked_apps");
 
         db.execSQL("create table blocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
-        db.execSQL("create table unblocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string)");
+        db.execSQL("create table unblocked_apps(app_id integer primary key autoincrement,  app_name string, package_name string,  image blob)");
+
 
     }
 
