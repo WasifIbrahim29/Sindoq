@@ -10,7 +10,7 @@ import com.example.BgService;
 public class StopServiceBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "Stopping Service!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Stopping Service!", Toast.LENGTH_LONG).show();
         Intent intent1=new Intent(context,BgService.class);
         context.stopService(intent1);
     }

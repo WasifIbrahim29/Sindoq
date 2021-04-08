@@ -21,6 +21,7 @@ TextView textView, text2view2, textview3;
     ConfirmPageAdapter confirmPageAdapter;
     CountDownTimer Timer;
     Button stopbtn;
+    Boolean cantgoback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +30,7 @@ TextView textView, text2view2, textview3;
         stopbtn= findViewById(R.id.btnstop);
         text2view2= findViewById(R.id.textView2);
         textview3= findViewById(R.id.text);
+        cantgoback=false;
 
         Timer= new CountDownTimer(5000, 1000){
             public void onTick(long millisUntilFinished){
@@ -44,6 +46,8 @@ TextView textView, text2view2, textview3;
                 textview3.setVisibility(View.GONE);
                 text2view2.setVisibility(View.VISIBLE);
                 text2view2.setText("In Blocking Service");
+                cantgoback= true;
+
                 Intent intent = new Intent();
                 intent.setAction("com.example.sindoq.intent.action.startservice");
                 sendBroadcast(intent);
@@ -58,5 +62,14 @@ TextView textView, text2view2, textview3;
         startActivity(intent);
         Timer.cancel();
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(cantgoback==false)
+        {
+            Timer.cancel();
+            super.onBackPressed();
+        }
     }
 }
