@@ -96,13 +96,31 @@ public class BlockPage extends AppCompatActivity {
     }
 
     private void updateCountDownText() {
-        int days=(int)((seconds/1000)/86400);
+
+        int days=(int)((seconds/(1000))/86400);
+        System.out.println(days);
+        int hours = (int)((seconds / (1000*60*60)) % 24);
+        int minutes =(int) (seconds / (1000*60)) % 60;
+        int second = (int) (seconds / 1000) % 60;
+        String timeLeftFormatted;
+        timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, second);
+        if(hours!=0)
+        {
+            timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d",hours, minutes, second);
+        }
+        if(days!=0)
+        {
+            timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d:%02d",days,hours, minutes, second);
+        }
+        textView.setText(timeLeftFormatted);
+
+        /*int days=(int)((seconds/1000)/86400);
         int hours = (int)((seconds / 1000) / 3600);
         int minutes =(int) (seconds / 1000) / 60;
         int second = (int) (seconds / 1000) % 60;
         String timeLeftFormatted;
         timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, second);
-        textView.setText(timeLeftFormatted);
+        textView.setText(timeLeftFormatted);*/
     }
 
 
